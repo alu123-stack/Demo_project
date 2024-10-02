@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9; 
+        }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+            margin-bottom: 20px; 
+        }
+        label {
+            font-weight: bold;
+            margin-right: 10px; 
+        }
+        select, input[type="text"], button {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 14px;
+        }
+        select {
+            flex: 1; 
+        }
+        input[type="text"] {
+            width: 200px; 
+        }
+        button {
+            background-color: #007bff; 
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3; 
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px; 
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2; 
+        }
+        td {
+            background-color: #fff;
+        }
+        tr:nth-child(even) td {
+            background-color: #f9f9f9; 
+        }
+    </style>
+</head>
+<body>
+    <form method="get">
+        <label for="filter">Filter</label>
+        <select name="filter" id="filter" onchange="this.form.submit()">
+            <option value="all" {% if request.GET.filter == "all" or not request.GET.filter %}selected{% endif %}>All Tasks</option>
+            <option value="Completed" {% if request.GET.filter == "Completed" %}selected{% endif %}>Completed Tasks</option>
+            <option value="Incomplete" {% if request.GET.filter == "Incomplete" %}selected{% endif %}>Incomplete Tasks</option>
+        </select>
+        <input type="text" name="search" placeholder="Search tasks..." value="{{ request.GET.search }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <h1>Hello {{username}}</h1>
+
+    <a href="{% url 'create_task' %}" class="button">Create New Task</a>
+
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
+        {% for i in task %}
+        <tr>
+            <td>{{ i.title }}</td>
+            <td>{{ i.description }}</td>
+            <td>
+                <form method="post" action="{% url 'task_complete' i.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="checkbox" name="completed" {% if i.completed %}checked{% endif %} onchange="this.form.submit()">
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'task_update' i.pk %}" style="display:inline;">
+                    <button type="submit">Edit</button>
+                </form>
+                <form action="{% url 'task_delete' i.pk %}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

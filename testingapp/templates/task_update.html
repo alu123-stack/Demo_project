@@ -1,0 +1,26 @@
+<html></html>
+    <body>
+        {% if messages %}
+        {% for i in messages %}
+        <h3>{{i}}</h3>
+        {% endfor %}
+        {% endif %}
+        <h1>task form</h1>
+        <form method="post">
+            {% csrf_token %}
+          
+            <input type="hidden" name="pk" value="{{ task.pk }}">
+
+        <label for="title" >title</label>
+        <input type="text" name="title" id="title" value="{{task.title}}">
+        <br>
+        <label for="description" >description</label>
+        <input type="text" name="description" id="description" value="{{task.description}}">
+        <br>
+     
+        <button type="submit">CREATE</button>
+
+    </form>
+<a href="{% url 'task_view' %}">BACK TO LIST</a>
+    </body>
+</html>

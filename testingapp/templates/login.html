@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif; 
+        }
+        .form-container {
+            background-color: #d8c6c6;
+            padding: 20px;
+            border-radius: 8px; 
+            width: 300px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column; 
+            gap: 12px; 
+            align-items: flex-start; 
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+            width: 100%; 
+        }
+        label {
+            width: 100px; 
+            font-weight: bold;
+            text-align: right; 
+        }
+        input[type="text"], input[type="password"] {
+            flex: 1; 
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%; 
+        }
+        button:hover {
+            background-color: #0056b3; 
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            margin-top: 12px; 
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        {% if messages %}
+        {% for i in messages %}
+        <h3>{{ i }}</h3>
+        {% endfor %}
+        {% endif %}
+        <h1>Login Form</h1>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" value="">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <a href="{% url 'register' %}">New User?</a>
+    </div>
+</body>
+</html>
