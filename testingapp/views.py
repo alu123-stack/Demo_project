@@ -11,23 +11,23 @@ from testingapp.mixins import PrintUsernameMixin
 
 # Create your views here.
 
-class Register(TemplateView):
-    template_name="register.html"
-    def post(self,request):
-        username=request.POST.get('username')
-        password=request.POST.get('password')
-        confirm_password=request.POST.get('confirm_password')
-        if password != confirm_password:
-            messages.error(request,"password doesnot match")
-            return redirect('register')
-        if User.objects.filter(username=username).exists():
-            messages.error(request,"user already exist")
-            return redirect('register')
-        try:
-            User.objects.create_user(username=username,password=password)
-            return redirect('login')
-        except Exception as e:
-            messages.error(request,str(e))
+# class Register(TemplateView):
+#     template_name="register.html"
+#     def post(self,request):
+#         username=request.POST.get('username')
+#         password=request.POST.get('password')
+#         confirm_password=request.POST.get('confirm_password')
+#         if password != confirm_password:
+#             messages.error(request,"password doesnot match")
+#             return redirect('register')
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request,"user already exist")
+#             return redirect('register')
+#         try:
+#             User.objects.create_user(username=username,password=password)
+#             return redirect('login')
+#         except Exception as e:
+#             messages.error(request,str(e))
 
 class Login(TemplateView):
     template_name="login.html"
